@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+
 const signupSchema = z.object({
   firstName: z.string().min(2, {
     message: "First name must be at least 2 characters long",

@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
+import { auth } from "../auth";
 
-function DashboardPage() {
+async function DashboardPage() {
   return (
     <>
-      {/* <h1>Dashboard</h1> */}
+      <h1>Dashboard</h1>
       {/* <Button color="primary">Click Me</Button> */}
 
       {/* Show View of today's timeline */}

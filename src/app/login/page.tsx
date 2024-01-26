@@ -23,6 +23,7 @@ const loginSchema = z.object({
     message: "Password must be at least 8 characters long",
   }),
 });
+
 function LoginPage() {
   const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -32,10 +33,11 @@ function LoginPage() {
       password: "",
     },
   });
-  function onSubmit(values: z.infer<typeof loginSchema>) {
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
     console.log(values);
     router.replace("/dashboard");
   }
+
   return (
     <>
       <div className="w-screen h-screen flex flex-col gap-4 p-12">
