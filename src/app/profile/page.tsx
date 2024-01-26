@@ -14,7 +14,9 @@ async function ProfilePage() {
   if (!session) {
     redirect("/login");
   }
+  //   @ts-ignore
   const user: User = session.user;
+
   return <Profile user={user} />;
 }
 
