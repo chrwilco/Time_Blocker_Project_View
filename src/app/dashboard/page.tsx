@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import React, { useEffect } from "react";
 import { auth } from "../auth";
+import { SessionProvider } from "next-auth/react";
 
 async function DashboardPage() {
   return (

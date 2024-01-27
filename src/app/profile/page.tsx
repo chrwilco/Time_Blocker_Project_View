@@ -7,10 +7,12 @@ type User = {
   name: string;
   email: string;
   image: string;
+  id: number;
 };
 
 async function ProfilePage() {
   const session = await auth();
+  console.log(session);
   if (!session) {
     redirect("/login");
   }

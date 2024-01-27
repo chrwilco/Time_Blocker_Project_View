@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Card,
@@ -9,8 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { signOut } from "../auth";
-async function Profile({
+import { signOut } from "next-auth/react";
+function Profile({
   user,
 }: {
   user: {
@@ -38,7 +39,9 @@ async function Profile({
                 <AvatarFallback>{user.name?.slice(0, 1)}</AvatarFallback>
               </Avatar>
             </div>
-            <Button size="sm">Sign out</Button>
+            <Button size="sm" onClick={() => signOut()}>
+              Sign out
+            </Button>
           </div>
         </CardContent>
       </Card>
