@@ -64,6 +64,21 @@ export const db = drizzle(sql);
     })
    )
 
+   export const tasks = pgTable("tasks", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    description: text("description"),
+    completed: timestamp("completed", { mode: "date" }),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    time: timestamp("time", { mode: "date" }).notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
+   })
+
    export type User = InferSelectModel<typeof users>
    export type NewUser = InferInsertModel<typeof users>
+   export type Task = InferSelectModel<typeof tasks>
+    export type NewTask = InferInsertModel<typeof tasks>
 
