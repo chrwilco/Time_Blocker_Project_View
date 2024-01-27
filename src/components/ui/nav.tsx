@@ -19,7 +19,6 @@ import Link from "next/link";
 export default function Nav() {
   return (
     <section>
-      {/* Include shared UI here e.g. a header or sidebar */}
       <nav className="w-full flex justify-between p-4 mr-24">
         <Link href="/">
           <Image src={logo} className="h-12 w-auto" alt="logo" />
@@ -49,9 +48,9 @@ export default function Nav() {
                   <ListItem href="/docs" title="Create taks">
                     Create a daily, weekly, or monthly task.
                   </ListItem>
-                  <ListItem href="/docs/installation" title="Installation">
+                  {/* <ListItem href="/docs/installation" title="Installation">
                     How to install dependencies and structure your app.
-                  </ListItem>
+                  </ListItem> */}
                   <ListItem
                     href="/docs/primitives/typography"
                     title="Manage tasks"
@@ -64,7 +63,7 @@ export default function Nav() {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Settings</NavigationMenuTrigger>
               <NavigationMenuContent className="flex flex-col">
-                <ul className="grid w-[300px] gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[500px] ">
+                <ul className="grid w-[300px] gap-3 p-4 md:w-[400px]  lg:w-[500px]">
                   <ListItem href="/profile" title="Profile">
                     View and edit your profile.
                   </ListItem>

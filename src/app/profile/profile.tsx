@@ -16,7 +16,7 @@ async function Profile({
   user: {
     name?: string | null;
     email?: string | null;
-    image?: string;
+    image?: string | null;
   };
 }) {
   return (
@@ -28,19 +28,19 @@ async function Profile({
               <div className="">Profile</div>
             </div>
           </CardTitle>
-          <CardDescription>
-            <div className="flex justify-between items-center mt-2">
-              <div className="flex gap-4 items-center">
-                {user.name}
-                <Avatar>
-                  <AvatarImage src={user.image} />
-                  <AvatarFallback>{user.name?.slice(0, 1)}</AvatarFallback>
-                </Avatar>
-              </div>
-              <Button size="sm">Sign out</Button>
-            </div>
-          </CardDescription>
         </CardHeader>
+        <CardContent>
+          <div className="flex justify-between items-center mt-2">
+            <div className="flex gap-4 items-center">
+              {user.name}
+              <Avatar>
+                {user.image && <AvatarImage src={user.image} />}
+                <AvatarFallback>{user.name?.slice(0, 1)}</AvatarFallback>
+              </Avatar>
+            </div>
+            <Button size="sm">Sign out</Button>
+          </div>
+        </CardContent>
       </Card>
       <Card className="w-2/3">
         <CardHeader>
