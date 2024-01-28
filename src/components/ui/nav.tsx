@@ -51,10 +51,7 @@ export default function Nav() {
                   {/* <ListItem href="/docs/installation" title="Installation">
                     How to install dependencies and structure your app.
                   </ListItem> */}
-                  <ListItem
-                    href="/docs/primitives/typography"
-                    title="Manage tasks"
-                  >
+                  <ListItem href="/manage" title="Manage tasks">
                     Manage your tasks.
                   </ListItem>
                 </ul>

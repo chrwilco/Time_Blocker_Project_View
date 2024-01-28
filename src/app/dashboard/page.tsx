@@ -30,10 +30,16 @@ async function DashboardPage() {
 
       {/* Show View of today's tasks */}
       {/* Maybe with this */}
+      <div className="flex flex-col gap-4 px-12 pt-6 pb-12">
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <p className="text-lg">Your Tasks at a glance.</p>
+        </div>
+      </div>
       <Card className="w-2/3 mx-auto">
         <CardHeader>
           Upcoming Tasks
-          <CardDescription>Your Day at a Glance</CardDescription>
+          <CardDescription>{/* Add something here */}</CardDescription>
         </CardHeader>
         <CardContent>
           {tasks.map((task) => (
