@@ -86,89 +86,100 @@ function CreatePage() {
   }, [date]);
 
   return (
-    <Card className="w-2/3 mx-auto mt-12">
-      <CardHeader>Create Task</CardHeader>
-      <CardDescription className="px-8">
-        Create a daily, weekly, or monthly task.
-      </CardDescription>
-      <CardContent>
-        <Form {...createForm}>
-          <form
-            onSubmit={createForm.handleSubmit(onSubmit)}
-            className="gap-4 flex flex-col"
-          >
-            <FormField
-              control={createForm.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={createForm.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea {...field} />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={createForm.control}
-              name="time"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Date</FormLabel>
-                  <FormControl>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[280px] justify-start text-left font-normal",
-                            !date && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {date ? (
-                            format(date, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={setDate}
-                          initialFocus
-                          {...field}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-            <Button variant="outline" type="submit">
-              Create
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+    <>
+      <div className="flex flex-col gap-4 px-12 pt-6 pb-12">
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl font-bold">Create Tasks</h1>
+          <p className="text-lg">Create a new task.</p>
+        </div>
+      </div>
+      <Card className="w-2/3 mx-auto">
+        <CardHeader>
+          Create Task
+          <CardDescription>
+            Create a daily, weekly, or monthly task.
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <Form {...createForm}>
+            <form
+              onSubmit={createForm.handleSubmit(onSubmit)}
+              className="gap-4 flex flex-col"
+            >
+              <FormField
+                control={createForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={createForm.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea {...field} />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={createForm.control}
+                name="time"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Date</FormLabel>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[280px] justify-start text-left font-normal",
+                              !date && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {date ? (
+                              format(date, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={setDate}
+                            initialFocus
+                            {...field}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              <Button variant="outline" type="submit">
+                Create
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </>
   );
 }
 
