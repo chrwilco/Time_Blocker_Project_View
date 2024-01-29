@@ -3,6 +3,8 @@ import React from "react";
 import * as z from "zod";
 import { SessionProvider, signIn, useSession } from "next-auth/react";
 import { auth } from "../auth";
+import { tasks as _tasks, db } from "../lib/drizzle";
+import { eq } from "drizzle-orm";
 
 const loginSchema = z.object({
   email: z.string().email({
@@ -15,7 +17,12 @@ const loginSchema = z.object({
 
 async function ManagePage() {
   const session = await auth();
-  console.log(session);
+  const tasks = await db.select().from(_tasks).where(
+    // @ts-ignore
+    eq(_tasks.userId, session.user.id)
+  );
+  console.log(tasks);
+
   return (
     <div className="w-screen h-screen flex flex-col gap-4 p-12">
       <div className="flex flex-col gap-4">
