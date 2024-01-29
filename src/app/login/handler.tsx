@@ -8,7 +8,8 @@ function Handler({ session }: { session: any }) {
   if (session) {
     redirect("/dashboard");
   } else {
-    signIn();
+    // signIn();
+    redirect("/api/auth/signin");
   }
   return <div>Hello</div>;
 }
