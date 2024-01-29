@@ -21,7 +21,6 @@ async function handlers(req: any, res: NextApiResponse) {
   if (!session) {
     return NextResponse.json("No Session", { status: 500 });
   }
-  console.log(session);
   if (req.method === "POST") {
     try {
       const request = await req.json();
@@ -31,12 +30,9 @@ async function handlers(req: any, res: NextApiResponse) {
       request.completed = false;
       request.time = new Date(request.time);
       request.userId = session.user.id;
-      console.log(request);
       const result = await db.insert(tasks).values(request).returning();
-      console.log(result);
       return NextResponse.json({ result }, { status: 200 });
     } catch (error) {
-      console.log(error);
       return NextResponse.json({ error }, { status: 500 });
     }
   }
@@ -46,10 +42,8 @@ async function handlers(req: any, res: NextApiResponse) {
         // @ts-ignore
         eq(tasks.userId, session.user.id)
       );
-      console.log(result);
       return NextResponse.json({ result }, { status: 200 });
     } catch (error) {
-      console.log(error);
       return NextResponse.json({ error }, { status: 500 });
     }
   }

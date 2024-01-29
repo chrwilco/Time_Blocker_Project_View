@@ -21,7 +21,6 @@ async function ManagePage() {
     // @ts-ignore
     eq(_tasks.userId, session.user.id)
   );
-  console.log(tasks);
 
   return (
     <div className="w-screen h-screen flex flex-col gap-4 p-12">

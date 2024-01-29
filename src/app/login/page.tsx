@@ -16,7 +16,6 @@ const loginSchema = z.object({
 
 async function LoginPage() {
   const session = await auth();
-  console.log(session);
   return <Handler session={session} />;
 }
 

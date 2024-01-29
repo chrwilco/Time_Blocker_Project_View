@@ -48,7 +48,6 @@ function SignUpPage() {
   });
 
   function onSubmit(values: z.infer<typeof signupSchema>) {
-    console.log(values);
     router.replace("/dashboard");
   }
   return (

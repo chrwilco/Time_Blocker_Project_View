@@ -12,7 +12,6 @@ type User = {
 
 async function ProfilePage() {
   const session = await auth();
-  console.log(session);
   if (!session) {
     redirect("/login");
   }

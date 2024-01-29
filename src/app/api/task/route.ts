@@ -27,7 +27,6 @@ import { eq } from "drizzle-orm";
 
 export async function GET(req: any) {
   const session = await auth();
-  console.log(session);
   if (!session) {
     return NextResponse.json("No Session", { status: 500 });
   }
@@ -37,10 +36,8 @@ export async function GET(req: any) {
       // @ts-ignore
       eq(tasks.userId, session.user.id)
     );
-    console.log(result);
     return NextResponse.json({ result }, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ error }, { status: 500 });
   }
   // }
