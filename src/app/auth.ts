@@ -9,6 +9,7 @@ export const authConfig = {
   adapter: DrizzleAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
+    // @ts-ignore
     async session({ session, user }) {
       session.user.id = user.id;
       return session;
