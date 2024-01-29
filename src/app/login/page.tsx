@@ -4,6 +4,7 @@ import * as z from "zod";
 import { SessionProvider, signIn, useSession } from "next-auth/react";
 import Handler from "./handler";
 import { auth } from "../auth";
+import { redirect } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.string().email({
@@ -16,7 +17,10 @@ const loginSchema = z.object({
 
 async function LoginPage() {
   const session = await auth();
-  return <Handler session={session} />;
+  if (session?.user) {
+    redirect("/dashboard");
+  }
+  //   return <Handler session={session} />;
 }
 
 export default LoginPage;
