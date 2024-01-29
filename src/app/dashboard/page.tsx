@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { db, tasks as _tasks } from "../lib/drizzle";
 import { eq } from "drizzle-orm";
+import Scheduler from "./scheduler";
 
 async function DashboardPage() {
   const session = await auth();
@@ -36,7 +37,12 @@ async function DashboardPage() {
           <p className="text-lg">Your Tasks at a glance.</p>
         </div>
       </div>
-      <Card className="w-2/3 mx-auto">
+
+      <Card className="w-2/3 mx-auto overflow-hidden">
+        <Scheduler />
+      </Card>
+
+      <Card className="w-2/3 mx-auto mt-4">
         <CardHeader>
           Upcoming Tasks
           <CardDescription>{/* Add something here */}</CardDescription>
