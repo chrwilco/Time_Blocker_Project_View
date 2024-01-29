@@ -11,7 +11,7 @@ function Handler({ session }: { session: any }) {
   } else {
     signIn();
   }
-  return <></>;
+  return <div>Hello</div>;
 }
 
 export default Handler;
