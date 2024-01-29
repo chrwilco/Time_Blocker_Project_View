@@ -17,12 +17,8 @@ const loginSchema = z.object({
 
 async function LoginPage() {
   const session = await auth();
-  if (session?.user) {
-    redirect("/dashboard");
-  } else {
-    signIn();
-  }
-  //   return <Handler session={session} />;
+
+  return <Handler session={session} />;
 }
 
 export default LoginPage;

@@ -5,7 +5,7 @@ import React from "react";
 import { auth } from "../auth";
 
 function Handler({ session }: { session: any }) {
-  if (session?.user) {
+  if (session) {
     redirect("/dashboard");
   } else {
     signIn();
