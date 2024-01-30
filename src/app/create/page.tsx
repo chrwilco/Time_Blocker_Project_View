@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { db, tasks } from "../lib/drizzle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const CreateFormSchema = z.object({
   name: z.string().min(3, {
@@ -40,6 +41,7 @@ const CreateFormSchema = z.object({
 });
 
 function CreatePage() {
+  const cal = useRef(null);
   const createForm = useForm<z.infer<typeof CreateFormSchema>>({
     resolver: zodResolver(CreateFormSchema),
     defaultValues: {
@@ -50,14 +52,6 @@ function CreatePage() {
   });
 
   async function onSubmit(values: z.infer<typeof CreateFormSchema>) {
-    // console.log(values);
-    // CreateTask(values);
-    // console.log(values);
-    // try {
-    //   await db.insert(tasks).values(values).onConflictDoNothing();
-    // } catch (error) {
-    //   console.log(error);
-    // }
     fetch("/api/create-task", {
       method: "POST",
       body: JSON.stringify(values),
@@ -84,6 +78,24 @@ function CreatePage() {
       createForm.setValue("time", date);
     }
   }, [date]);
+
+  const toggleSelected = (value: string) => {
+    console.log(value);
+    switch (value) {
+      case "a":
+        setDate(new Date());
+        break;
+      case "b":
+        setDate(new Date(Date.now() + 86400000));
+        break;
+      case "c":
+        setDate(new Date(Date.now() + 604800000));
+        break;
+      case "d":
+        setDate(new Date(Date.now() + 2592000000));
+        break;
+    }
+  };
 
   return (
     <>
@@ -140,33 +152,70 @@ function CreatePage() {
                   <FormItem className="flex flex-col">
                     <FormLabel>Date</FormLabel>
                     <FormControl>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !date && "text-muted-foreground"
-                            )}
+                      <>
+                        <ToggleGroup type="single">
+                          <ToggleGroupItem
+                            value="a"
+                            onClick={() => setDate(new Date())}
                           >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {date ? (
-                              format(date, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={date}
-                            onSelect={setDate}
-                            initialFocus
-                            {...field}
-                          />
-                        </PopoverContent>
-                      </Popover>
+                            Today
+                          </ToggleGroupItem>
+                          <ToggleGroupItem
+                            value="b"
+                            onClick={() =>
+                              setDate(new Date(Date.now() + 86400000))
+                            }
+                          >
+                            Tomorrow
+                          </ToggleGroupItem>
+                          <ToggleGroupItem
+                            value="c"
+                            onClick={() =>
+                              setDate(new Date(Date.now() + 604800000))
+                            }
+                          >
+                            This Week
+                          </ToggleGroupItem>
+                          <ToggleGroupItem
+                            value="d"
+                            onClick={() =>
+                              setDate(new Date(Date.now() + 2592000000))
+                            }
+                          >
+                            This Month
+                          </ToggleGroupItem>
+                        </ToggleGroup>
+
+                        <div className="flex justify-center">
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-[280px] justify-start text-left font-normal",
+                                  !date && "text-muted-foreground"
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {date ? (
+                                  format(date, "PPP")
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                              <Calendar
+                                mode="single"
+                                selected={date}
+                                onSelect={setDate}
+                                initialFocus
+                                {...field}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                      </>
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { db, tasks as _tasks } from "../lib/drizzle";
 import { eq } from "drizzle-orm";
+import Task from "@/components/ui/task";
 
 async function DashboardPage() {
   const session = await auth();
@@ -41,20 +42,9 @@ async function DashboardPage() {
           Upcoming Tasks
           <CardDescription>{/* Add something here */}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col">
           {tasks.map((task) => (
-            <div
-              className="flex flex-col border-stone-400 border-2 rounded-lg p-4 m-4"
-              key={task.id}
-            >
-              <div className="flex justify-between w-full items-center">
-                <div className="text-xl font-bold">{task.name}</div>
-                <div className="text-xs ">
-                  {new Date(task.time).toLocaleTimeString()}
-                </div>
-              </div>
-              <div className="text-md font-bold">{task.description}</div>
-            </div>
+            <Task task={task} />
           ))}
         </CardContent>
       </Card>
