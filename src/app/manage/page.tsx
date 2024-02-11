@@ -35,7 +35,7 @@ async function ManagePage() {
       <Card className="w-2/3 mx-auto">
         <CardContent className="flex flex-wrap gap-4 justify-center p-4 ">
           {tasks.map((task) => (
-            <Task task={task} />
+            <Task task={task} key={task.id} />
           ))}
         </CardContent>
       </Card>
