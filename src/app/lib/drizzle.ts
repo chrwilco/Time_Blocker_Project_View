@@ -8,10 +8,11 @@ import {
   integer,
   boolean,
 } from "drizzle-orm/pg-core";
-import { InferSelectModel, InferInsertModel } from "drizzle-orm";
+import { InferSelectModel, InferInsertModel, eq } from "drizzle-orm";
 import { sql } from "@vercel/postgres";
 import { drizzle } from "drizzle-orm/vercel-postgres";
 import { AdapterAccount } from "@auth/core/adapters";
+import { auth } from "../auth";
 
 export const db = drizzle(sql);
 
@@ -78,6 +79,18 @@ export const tasks = pgTable("tasks", {
   time: timestamp("time", { mode: "date" }).notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
   updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
+});
+
+export const categories = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  color: text("color"),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
+  deletedAt: timestamp("deletedAt", { mode: "date" }),
 });
 
 export type User = InferSelectModel<typeof users>;

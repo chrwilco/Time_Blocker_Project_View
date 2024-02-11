@@ -33,7 +33,7 @@ async function ManagePage() {
         <p className="text-lg">Manage your Tasks.</p>
       </div>
       <Card className="w-2/3 mx-auto">
-        <CardContent>
+        <CardContent className="flex flex-wrap gap-4 justify-center p-4 ">
           {tasks.map((task) => (
             <Task task={task} />
           ))}

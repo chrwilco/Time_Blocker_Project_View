@@ -45,7 +45,7 @@ export default function Nav() {
                       </Link>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href="/create" title="Create taks">
+                  <ListItem href="/create" title="Create task">
                     Create a daily, weekly, or monthly task.
                   </ListItem>
                   {/* <ListItem href="/docs/installation" title="Installation">

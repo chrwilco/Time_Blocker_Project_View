@@ -18,7 +18,6 @@ async function DashboardPage() {
     // @ts-ignore
     eq(_tasks.userId, session.user.id)
   );
-  console.log(tasks);
 
   return (
     <>
@@ -31,6 +30,8 @@ async function DashboardPage() {
 
       {/* Show View of today's tasks */}
       {/* Maybe with this */}
+
+      {/* NVM that library requires a subscription */}
       <div className="flex flex-col gap-4 px-12 pt-6 pb-12">
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold">Dashboard</h1>
@@ -42,9 +43,11 @@ async function DashboardPage() {
           Upcoming Tasks
           <CardDescription>{/* Add something here */}</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col">
+        <CardContent className="flex flex-col md:flex-row mx-auto flex-wrap gap-4">
           {tasks.map((task) => (
-            <Task task={task} />
+            <div key={task.name} className="w-2/3 mx-auto">
+              <Task task={task} />
+            </div>
           ))}
         </CardContent>
       </Card>
