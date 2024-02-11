@@ -389,6 +389,7 @@ function CreatePage() {
                           {categories.map((category, index) => (
                             <Badge
                               id={category.name + index}
+                              // @ts-ignore
                               variant={
                                 category.selected ? category.color : "outline"
                               }

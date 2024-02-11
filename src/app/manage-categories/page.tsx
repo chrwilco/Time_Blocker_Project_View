@@ -41,15 +41,26 @@ import { set } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function ManageCategoriesPage() {
-  const [categories, setCategories] = useState([]);
-  const [editCategory, setEditCategory] = useState({});
+  const [categories, setCategories] = useState(
+    [] as {
+      name: string;
+      color: string;
+      loading: boolean;
+      id: string;
+    }[]
+  );
+  const [editCategory, setEditCategory] = useState({
+    name: "",
+    color: "",
+    id: "",
+  });
 
   const updateNewCategory = (key: string, value: string) => {
     setEditCategory({ ...editCategory, [key]: value });
   };
 
   const updateEditCategory = () => {
-    categories.map((c) => {
+    categories.map((c: any) => {
       if (c.id === editCategory.id) {
         c.loading = true;
       }
@@ -211,7 +222,7 @@ function ManageCategoriesPage() {
                             <DrawerClose>
                               <Button
                                 variant="destructive"
-                                onClick={() => deleteCategory(category.id)}
+                                onClick={() => deleteCategory()}
                               >
                                 Delete
                               </Button>
