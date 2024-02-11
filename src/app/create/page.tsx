@@ -30,7 +30,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { db, getCategories, tasks } from "../lib/drizzle";
+import { db, tasks } from "../lib/drizzle";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Badge } from "@/components/ui/badge";
 import {
