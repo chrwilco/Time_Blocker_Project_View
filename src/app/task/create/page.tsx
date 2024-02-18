@@ -414,7 +414,7 @@ function CreatePage() {
                               field.onChange(parseInt(e));
                               selectChanged();
                             }}
-                            defaultValue={field.value}
+                            defaultValue={String(field.value)}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Select" />

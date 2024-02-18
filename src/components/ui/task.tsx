@@ -55,6 +55,7 @@ function Task({
   const titleRef = React.useRef(null);
   useEffect(() => {
     if (isEditing) {
+      // @ts-ignore
       titleRef?.current?.focus();
     }
   }, [isEditing]);

@@ -122,7 +122,7 @@ export default function Schedule(tasks: any) {
   return (
     <>
       <CardHeader className="pb-0">
-        <CardTitle className="text-2xl">Today's Schedule</CardTitle>
+        <CardTitle className="text-2xl">Today&apos;s Schedule</CardTitle>
         <CardDescription>
           Add your tasks and appointments for the day
         </CardDescription>
@@ -176,7 +176,7 @@ export default function Schedule(tasks: any) {
   );
 }
 
-function CheckIcon(props) {
+function CheckIcon(props: any) {
   return (
     <svg
       {...props}
@@ -195,7 +195,7 @@ function CheckIcon(props) {
   );
 }
 
-function ClockIcon(props) {
+function ClockIcon(props: any) {
   return (
     <svg
       {...props}

@@ -24,8 +24,7 @@ import { eq } from "drizzle-orm";
 //     return NextResponse.json({ error }, { status: 500 });
 //   }
 // }
-
-export async function handlers(req: any) {
+async function handlers(req: any) {
   const session = await auth();
   if (!session) {
     return NextResponse.json("No Session", { status: 500 });

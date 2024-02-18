@@ -66,7 +66,7 @@ async function DashboardPage() {
               <CardDescription>{/* Add something here */}</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col md:flex-row mx-auto flex-wrap gap-4">
-              {tasks.map((task) => (
+              {tasks.map((task: any) => (
                 <div key={task.name + task.id} className="w-2/3 mx-auto">
                   <Task task={task} />
                 </div>
