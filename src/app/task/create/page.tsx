@@ -30,7 +30,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { db, tasks } from "../lib/drizzle";
+import { db, tasks } from "../../lib/drizzle";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -54,9 +54,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { categories as _categories } from "../lib/drizzle";
+import { categories as _categories } from "../../lib/drizzle";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
+import { Label } from "@radix-ui/react-select";
 
 const CreateFormSchema = z.object({
   name: z.string().min(3, {
@@ -64,7 +66,8 @@ const CreateFormSchema = z.object({
   }),
   description: z.string(),
   time: z.date().min(new Date(), { message: "Time must be in the future" }),
-  categories: z.array(z.string()),
+  categories: z.array(z.number()),
+  duration: z.number(), // Labeled on webpage as estimated time required
 });
 
 function CreatePage() {
@@ -75,6 +78,7 @@ function CreatePage() {
       name: "",
       description: "",
       time: undefined,
+      duration: 0,
     },
   });
 
@@ -93,7 +97,7 @@ function CreatePage() {
         }
       })
       .then((data) => {
-        console.log(data);
+        toast.success("Task Created");
       })
       .catch((err) => {
         console.log(err);
@@ -107,7 +111,6 @@ function CreatePage() {
   }, [date]);
 
   const toggleSelected = (value: string) => {
-    console.log(value);
     switch (value) {
       case "a":
         setDate(new Date());
@@ -156,6 +159,15 @@ function CreatePage() {
       selected: true,
     },
   ]);
+  useEffect(() => {
+    const selectedCategories = categories.filter((c) => c.selected);
+    if (selectedCategories.length) {
+      createForm.setValue(
+        "categories",
+        selectedCategories.map((c: any) => c.id)
+      );
+    }
+  }, [categories]);
 
   useEffect(() => {
     fetch("/api/category", {
@@ -228,7 +240,6 @@ function CreatePage() {
         }
       })
       .then((data) => {
-        console.log(data);
         redirect("/dashboard");
       })
       .catch((err) => {
@@ -240,6 +251,25 @@ function CreatePage() {
     });
     setNewCategory({} as any);
   };
+
+  const [showCustomeDuration, setShowCustomDuration] = useState<boolean>(false);
+  const [customDuration, setCustomDuration] = useState<number>(0);
+  const selectChanged = () => {
+    if (createForm.watch("duration").valueOf() <= -0.1) {
+      setShowCustomDuration(true);
+    } else {
+      setShowCustomDuration(false);
+    }
+  };
+  const [customDurationMeasure, setCustomDurationMeasure] =
+    useState<string>("minutes");
+
+  useEffect(() => {
+    if (customDuration && createForm.watch("duration").valueOf() < 0) {
+      const durationMeasure = customDurationMeasure === "minutes" ? 1 : 60;
+      createForm.setValue("duration", customDuration * durationMeasure);
+    }
+  }, [customDuration, customDurationMeasure]);
 
   return (
     <>
@@ -295,7 +325,7 @@ function CreatePage() {
                   name="time"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>Date</FormLabel>
+                      <FormLabel>Complete Before</FormLabel>
                       <FormControl>
                         <>
                           <ToggleGroup
@@ -359,6 +389,8 @@ function CreatePage() {
                                   onSelect={setDate}
                                   initialFocus
                                   {...field}
+                                  fromDate={new Date()}
+                                  toDate={new Date(Date.now() + 31536000000)}
                                 />
                               </PopoverContent>
                             </Popover>
@@ -369,7 +401,84 @@ function CreatePage() {
                     </FormItem>
                   )}
                 />
-                {/* Add Tags/Categories Here */}
+                <FormField
+                  control={createForm.control}
+                  name="duration"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Estimated Time Required</FormLabel>
+                      <FormControl>
+                        <>
+                          <Select
+                            onValueChange={(e) => {
+                              field.onChange(parseInt(e));
+                              selectChanged();
+                            }}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="5">5 minutes</SelectItem>
+                              <SelectItem value="10">10 minutes</SelectItem>
+                              <SelectItem value="15">15 minutes</SelectItem>
+                              <SelectItem value="30">30 minutes</SelectItem>
+                              <SelectItem value="45">45 minutes</SelectItem>
+                              <SelectItem value="60">1 hour</SelectItem>
+                              <SelectItem value="120">2 hours</SelectItem>
+                              <SelectItem value="180">3 hours</SelectItem>
+                              <SelectItem value="240">4 hours</SelectItem>
+                              <SelectItem value="300">5 hours</SelectItem>
+                              <SelectItem value="360">6 hours</SelectItem>
+                              <SelectItem value="420">7 hours</SelectItem>
+                              <SelectItem value="480">8 hours</SelectItem>
+                              {/* <SelectItem value="-1">Custom</SelectItem>  FINISH LATER */}
+                            </SelectContent>
+                          </Select>
+                          {showCustomeDuration && (
+                            <>
+                              {/* <Label>Custom Duration</Label> */}
+                              <div className="flex gap-4">
+                                <Input
+                                  placeholder="Custom Duration"
+                                  onChange={(e) =>
+                                    setCustomDuration(
+                                      parseInt(e.target.value, 10)
+                                    )
+                                  }
+                                  type="number"
+                                  min={0}
+                                  max={
+                                    customDurationMeasure === "minutes"
+                                      ? 60
+                                      : 24
+                                  }
+                                  step={1}
+                                />
+                                <Select
+                                  onValueChange={setCustomDurationMeasure}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Unit" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="minutes">
+                                      Minutes
+                                    </SelectItem>
+                                    <SelectItem value="hours">Hours</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            </>
+                          )}
+                        </>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   control={createForm.control}
                   name="description"
@@ -403,14 +512,7 @@ function CreatePage() {
                           <div className="w-full flex justify-center">
                             <Drawer>
                               <DrawerTrigger>
-                                <Tooltip>
-                                  <TooltipTrigger>
-                                    <Badge className="cursor-pointer">+</Badge>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    Add a new category
-                                  </TooltipContent>
-                                </Tooltip>
+                                <Badge className="cursor-pointer">+</Badge>
                               </DrawerTrigger>
                               <DrawerContent>
                                 <DrawerHeader>
@@ -429,6 +531,7 @@ function CreatePage() {
                                     onValueChange={(e) =>
                                       updateNewCategory("color", e)
                                     }
+                                    {...field}
                                   >
                                     <SelectTrigger>
                                       <SelectValue placeholder="color" />

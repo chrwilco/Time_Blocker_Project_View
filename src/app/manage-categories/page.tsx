@@ -111,7 +111,6 @@ function ManageCategoriesPage() {
               loading: false,
             }))
           );
-          console.log(categories);
         }
       });
   }, []);
@@ -130,9 +129,7 @@ function ManageCategoriesPage() {
           });
         }
       })
-      .then((data) => {
-        console.log(data);
-      });
+      .then((data) => {});
 
     setCategories(categories.filter((c) => c.id !== editCategory.id));
   };

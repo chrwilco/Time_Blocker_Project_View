@@ -45,13 +45,13 @@ export default function Nav() {
                       </Link>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href="/create" title="Create task">
+                  <ListItem href="/task/create" title="Create task">
                     Create a daily, weekly, or monthly task.
                   </ListItem>
                   {/* <ListItem href="/docs/installation" title="Installation">
                     How to install dependencies and structure your app.
                   </ListItem> */}
-                  <ListItem href="/manage" title="Manage tasks">
+                  <ListItem href="/task/manage" title="Manage tasks">
                     Manage your tasks.
                   </ListItem>
                 </ul>

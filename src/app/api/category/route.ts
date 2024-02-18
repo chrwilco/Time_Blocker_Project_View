@@ -42,7 +42,6 @@ async function handlers(req: any, res: NextApiResponse) {
           .select()
           .from(categories)
           .where(eq(categories.userId, session.user.id as string));
-        console.log(tasks);
         return NextResponse.json({ tasks }, { status: 200 });
       } catch (error) {
         return NextResponse.json({ error }, { status: 500 });
@@ -53,7 +52,6 @@ async function handlers(req: any, res: NextApiResponse) {
   }
   if (req.method === "DELETE") {
     const request = await req.json();
-    console.log(request);
     if (session && request.id) {
       try {
         const result = await db
@@ -112,6 +110,5 @@ export const PATCH = handlers;
 //     }
 //     //   }
 //   } catch (e) {
-//     console.log(e);
 //   }
 // }
